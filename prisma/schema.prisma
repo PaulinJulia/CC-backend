@@ -13,4 +13,53 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id        Int         @id @default(autoincrement())
+  password  String
+  email     String      @unique
+  character Character[]
+}
 
+model Character {
+  id           Int     @id @default(autoincrement())
+  name         String
+  age          Int
+  gender       String
+  level        Int
+  healthPoints Int
+  strength     Int
+  dexterity    Int
+  intelligence Int
+  wisdom       Int
+  constitution Int
+  charisma     Int
+  favourite    Boolean @default(true)
+  imageURL     String
+  backstory    String
+  profession   String
+  species      String
+  user         User    @relation(fields: [userId], references: [id])
+  userId       Int
+  story        Story[]
+}
+
+model Story {
+  id          Int       @id @default(autoincrement())
+  name        String
+  basePrompt  String
+  character   Character @relation(fields: [characterId], references: [id])
+  characterId Int
+}
+
+model Chat {
+  id          Int    @id @default(autoincrement())
+  message     String
+  characterId Int?
+}
+
+model ChatHistory {
+  id            Int      @id @default(autoincrement())
+  message       String
+  characterName String @default("null")
+  timestamp     DateTime @default(now())
+}
