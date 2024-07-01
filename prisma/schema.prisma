@@ -9,19 +9,20 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
-  id        Int         @id @default(autoincrement())
-  password  String
-  email     String      @unique
-  character Character[]
+  id         Int         @id @default(autoincrement())
+  password   String
+  email      String      @unique
+  characters Character[]
 }
 
 model Character {
-  id           Int     @id @default(autoincrement())
+  id           Int           @id @default(autoincrement())
   name         String
   age          Int
   gender       String
@@ -33,33 +34,36 @@ model Character {
   wisdom       Int
   constitution Int
   charisma     Int
-  favourite    Boolean @default(true)
+  favourite    Boolean       @default(true)
+  activeStory  Boolean       @default(false)
   imageURL     String
   backstory    String
   profession   String
   species      String
-  user         User    @relation(fields: [userId], references: [id])
+  user         User          @relation(fields: [userId], references: [id])
   userId       Int
-  story        Story[]
+  stories      Story[]
+  chatMessages ChatMessage[]
 }
 
 model Story {
-  id          Int       @id @default(autoincrement())
-  name        String
-  basePrompt  String
-  character   Character @relation(fields: [characterId], references: [id])
-  characterId Int
+  id             Int       @id @default(autoincrement())
+  name           String
+  basePrompt     String
+  characterStory Character @relation(fields: [characterId], references: [id])
+  characterId    Int
 }
 
-model Chat {
-  id          Int    @id @default(autoincrement())
+model ChatMessage {
+  id          Int       @id @default(autoincrement())
   message     String
-  characterId Int?
+  character   Character @relation(fields: [characterId], references: [id])
+  characterId Int
 }
 
 model ChatHistory {
   id            Int      @id @default(autoincrement())
   message       String
-  characterName String @default("null")
+  characterName String   @default("null")
   timestamp     DateTime @default(now())
 }

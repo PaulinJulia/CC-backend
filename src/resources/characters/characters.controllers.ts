@@ -1,7 +1,7 @@
 import { prisma } from "../../db/connect";
 import { Request, Response } from "express";
 
-//Get all favorite characters - GET /characters
+//Get all characters - GET /characters
 export async function getCharacters(req: Request, res: Response) {
   try {
     const characters = await prisma.character.findMany();
@@ -20,10 +20,15 @@ export async function getCharacters(req: Request, res: Response) {
 export async function getCharacter(req: Request, res: Response) {
   try {
     const { id } = req.params;
+    const parsedId = parseInt(id, 10);
+    if (isNaN(parsedId)) {
+      res.status(400).json({ error: "Invalid id" });
+      return;
+    }
 
     const character = await prisma.character.findUnique({
       where: {
-        id: id,
+        id: parsedId,
       },
     });
 
@@ -63,13 +68,45 @@ export async function getCharactersByUser(req: Request, res: Response) {
 export async function createCharacterByUser(req: Request, res: Response) {
   try {
     const { userId } = req.params;
-    const { headline, brief, employer } = req.body;
+    const {
+      name,
+      age,
+      gender,
+      level,
+      healthPoints,
+      strength,
+      dexterity,
+      intelligence,
+      wisdom,
+      constitution,
+      charisma,
+      favourite,
+      activeStory,
+      imageURL,
+      backstory,
+      profession,
+      species,
+    } = req.body;
 
     const character = await prisma.character.create({
       data: {
-        headline,
-        brief,
-        employer,
+        name,
+        age,
+        gender,
+        level,
+        healthPoints,
+        strength,
+        dexterity,
+        intelligence,
+        wisdom,
+        constitution,
+        charisma,
+        favourite,
+        activeStory,
+        imageURL,
+        backstory,
+        profession,
+        species,
         userId: parseInt(userId),
       },
     });
@@ -87,16 +124,54 @@ export async function createCharacterByUser(req: Request, res: Response) {
 export async function updateCharacter(req: Request, res: Response) {
   try {
     const { id } = req.params;
-    const { headline, brief, employer } = req.body;
+    const parsedId = parseInt(id, 10);
+
+    if (isNaN(parsedId)) {
+      res.status(400).json({ error: "Invalid id" });
+      return;
+    }
+    const {
+      name,
+      age,
+      gender,
+      level,
+      healthPoints,
+      strength,
+      dexterity,
+      intelligence,
+      wisdom,
+      constitution,
+      charisma,
+      favourite,
+      activeStory,
+      imageURL,
+      backstory,
+      profession,
+      species,
+    } = req.body;
 
     const character = await prisma.character.update({
       where: {
-        id: id,
+        id: parsedId,
       },
       data: {
-        headline,
-        brief,
-        employer,
+        name,
+        age,
+        gender,
+        level,
+        healthPoints,
+        strength,
+        dexterity,
+        intelligence,
+        wisdom,
+        constitution,
+        charisma,
+        favourite,
+        activeStory,
+        imageURL,
+        backstory,
+        profession,
+        species,
       },
     });
 
@@ -109,14 +184,19 @@ export async function updateCharacter(req: Request, res: Response) {
   }
 }
 
-//Delete favorite character - DELETE /characters/:id
+//Delete character - DELETE /characters/:id
 export async function deleteCharacter(req: Request, res: Response) {
   try {
     const { id } = req.params;
+        const parsedId = parseInt(id, 10);
+    if (isNaN(parsedId)) {
+      res.status(400).json({ error: "Invalid id" });
+      return;
+    }
 
     const character = await prisma.character.delete({
       where: {
-        id: id,
+        id: parsedId,
       },
     });
 

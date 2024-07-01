@@ -11,14 +11,14 @@ import {
 
 const router = express.Router();
 
-// GET /characters: Retrieve a list of favorite characters.
+// GET /characters: Retrieve a list of characters.
 // GET /characters/{characterId}: Retrieve a specific character by ID.
-// GET /users/{userId}/characters: Retrieve all favorite characters by a specific user.
-// POST /users/{userId}/characters: Create a new favorite character for a specific user.
+// GET /users/{userId}/characters: Retrieve all characters by a specific user.
+// POST /users/{userId}/characters: Create a new character for a specific user.
 // PUT /characters/{characterId}: Update a specific character by ID.
 // DELETE /characters/{characterId}: Delete a specific character by ID.
 
-// CRUD for favorite characters
+// CRUD for characters
 router.get("/characters", auth, getCharacters);
 router.get("/characters/:id", auth, getCharacter);
 router.get("/users/:userId/characters", auth, getCharactersByUser);

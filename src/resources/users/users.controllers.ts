@@ -169,26 +169,26 @@ export async function updateUser(req: Request, res: Response) {
 }
 
 // Delete user and favorite jobs - DELETE /user/:id
-export async function deleteUser(req: Request, res: Response) {
-  try {
-    const { id } = req.params;
-    const jobs = await prisma.favoriteJob.deleteMany({
-      where: {
-        userId: parseInt(id),
-      },
-    });
+// export async function deleteUser(req: Request, res: Response) {
+//   try {
+//     const { id } = req.params;
+//     const jobs = await prisma.characters.deleteMany({
+//       where: {
+//         userId: parseInt(id),
+//       },
+//     });
 
-    const user = await prisma.user.delete({
-      where: {
-        id: parseInt(id),
-      },
-    });
+//     const user = await prisma.user.delete({
+//       where: {
+//         id: parseInt(id),
+//       },
+//     });
 
-    if (!user) return res.status(404).json({ error: "User not deleted!" });
+//     if (!user) return res.status(404).json({ error: "User not deleted!" });
 
-    res.status(200).json({ message: "User deleted!" });
-  } catch (error) {
-    console.error("Error details:", error);
-    res.status(500).json({ error: "Database query failed!" });
-  }
-}
+//     res.status(200).json({ message: "User deleted!" });
+//   } catch (error) {
+//     console.error("Error details:", error);
+//     res.status(500).json({ error: "Database query failed!" });
+//   }
+// }
