@@ -7,7 +7,7 @@ export async function getStories(req: Request, res: Response) {
     const stories = await prisma.story.findMany();
 
     if (!stories.length)
-      return res.status(404).json({ message: "No characters found" });
+      return res.status(404).json({ message: "No stories found" });
 
     res.status(200).json(stories);
   } catch (error) {
@@ -32,7 +32,7 @@ export async function getStory(req: Request, res: Response) {
       },
     });
 
-    if (!story) return res.status(404).json({ message: "Character not found" });
+    if (!story) return res.status(404).json({ message: "Story not found" });
     res.status(200).json(story);
   } catch (error) {
     console.error("Error details:", error);
@@ -54,7 +54,7 @@ export async function getStoriesByCharacter(req: Request, res: Response) {
     if (!stories.length)
       return res
         .status(404)
-        .json({ message: "No favorite character found for this user" });
+        .json({ message: "No stories found for this user" });
 
     res.status(200).json(stories);
   } catch (error) {
@@ -77,9 +77,7 @@ export async function createStoryByCharacter(req: Request, res: Response) {
       },
     });
 
-    res
-      .status(201)
-      .json({ id: story.id, message: "Favorite character created!" });
+    res.status(201).json({ id: story.id, message: "Story created!" });
   } catch (error) {
     console.error("Error details:", error);
     res.status(500).json({ error: "Database query failed!" });
@@ -107,9 +105,8 @@ export async function updateStory(req: Request, res: Response) {
       },
     });
 
-    if (!story)
-      return res.status(404).json({ error: "Favorite character not updated!" });
-    res.status(200).json({ message: "Favorite character updated!" });
+    if (!story) return res.status(404).json({ error: "Story not updated!" });
+    res.status(200).json({ message: "Story updated!" });
   } catch (error) {
     console.error("Error details:", error);
     res.status(500).json({ error: "Database query failed!" });
@@ -132,9 +129,8 @@ export async function deleteStory(req: Request, res: Response) {
       },
     });
 
-    if (!story)
-      return res.status(404).json({ error: "Favorite character not deleted!" });
-    res.status(200).json({ message: "Favorite character deleted!" });
+    if (!story) return res.status(404).json({ error: "Story not deleted!" });
+    res.status(200).json({ message: "Story deleted!" });
   } catch (error) {
     console.error("Error details:", error);
     res.status(500).json({ error: "Database query failed!" });

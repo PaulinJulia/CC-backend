@@ -61,7 +61,7 @@ export async function getUser(req: Request, res: Response) {
   }
 }
 
-// Create/register user - POST /users
+// Create/register user - POST /register
 export async function createUser(req: Request, res: Response) {
   try {
     const { password, email } = req.body;
@@ -98,6 +98,7 @@ export async function createUser(req: Request, res: Response) {
   }
 }
 
+// Create/login user - POST /login
 export async function loginUser(req: Request, res: Response) {
   try {
     const { email, password } = req.body;

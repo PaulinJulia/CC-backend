@@ -19,7 +19,7 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 //   }
 // }
 
-// Get chatMessage - GET /chatMessages/:id
+// Get chatMessage by ID - GET /chatMessages/:id
 // export async function getChatMessage(req: Request, res: Response) {
 //   try {
 //     const { id } = req.params;
@@ -62,25 +62,24 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 //   }
 // }
 
-// Create/save message by character - POST /characters/:characterId/characters
+// Create/save message by character - POST /characters/:characterId/chatMessage
 export async function createChatMessageByCharacter(
   req: Request,
   res: Response
 ) {
   try {
-    const { id } = req.params;
-    const { message, characterId } = req.body;
+    const { characterId } = req.params;
+    const { message } = req.body;
 
-    const parsedStoryId = parseInt(id, 10);
+    const parsedStoryId = parseInt(characterId, 10);
     if (isNaN(parsedStoryId)) {
-      res.status(400).json({ error: "Invalid storyId" });
+      res.status(400).json({ error: "Invalid characterId" });
       return;
     }
 
     const chatMessage = await prisma.chatMessage.create({
       data: {
         message,
-        characterId,
         id: parsedStoryId,
       },
     });
@@ -90,13 +89,11 @@ export async function createChatMessageByCharacter(
       model: "gpt-3.5-turbo",
     });
 
-    res
-      .status(201)
-      .json({
-        id: chatMessage.id,
-        message: "Chat message created!",
-        aiResponse: completion.choices,
-      });
+    res.status(201).json({
+      id: chatMessage.id,
+      message: "Chat message created!",
+      aiResponse: completion.choices,
+    });
   } catch (error) {
     console.error("Error details:", error);
     res
