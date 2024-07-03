@@ -26,7 +26,6 @@ model Character {
   name         String
   age          Int
   gender       String
-  level        Int
   healthPoints Int
   strength     Int
   dexterity    Int
@@ -49,7 +48,7 @@ model Character {
 model Story {
   id             Int       @id @default(autoincrement())
   name           String
-  basePrompt     String
+  summary        String
   characterStory Character @relation(fields: [characterId], references: [id])
   characterId    Int
 }

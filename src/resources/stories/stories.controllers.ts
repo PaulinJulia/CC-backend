@@ -67,12 +67,12 @@ export async function getStoriesByCharacter(req: Request, res: Response) {
 export async function createStoryByCharacter(req: Request, res: Response) {
   try {
     const { characterId } = req.params;
-    const { name, basePrompt } = req.body;
+    const { name, summary } = req.body;
 
     const story = await prisma.story.create({
       data: {
         name,
-        basePrompt,
+        summary,
         characterId: parseInt(characterId),
       },
     });
@@ -88,7 +88,7 @@ export async function createStoryByCharacter(req: Request, res: Response) {
 export async function updateStory(req: Request, res: Response) {
   try {
     const { id } = req.params;
-    const { name, basePrompt } = req.body;
+    const { name, summary } = req.body;
     const parsedId = parseInt(id, 10);
     if (isNaN(parsedId)) {
       res.status(400).json({ error: "Invalid id" });
@@ -101,7 +101,7 @@ export async function updateStory(req: Request, res: Response) {
       },
       data: {
         name,
-        basePrompt,
+        summary,
       },
     });
 

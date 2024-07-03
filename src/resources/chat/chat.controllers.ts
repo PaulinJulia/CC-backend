@@ -71,8 +71,8 @@ export async function createChatMessageByCharacter(
     const { characterId } = req.params;
     const { message } = req.body;
 
-    const parsedStoryId = parseInt(characterId, 10);
-    if (isNaN(parsedStoryId)) {
+    const parsedCharacterId = parseInt(characterId, 10);
+    if (isNaN(parsedCharacterId)) {
       res.status(400).json({ error: "Invalid characterId" });
       return;
     }
@@ -80,7 +80,7 @@ export async function createChatMessageByCharacter(
     const chatMessage = await prisma.chatMessage.create({
       data: {
         message,
-        id: parsedStoryId,
+        characterId: parseInt(characterId),
       },
     });
 
