@@ -90,7 +90,10 @@ export async function createUser(req: Request, res: Response) {
       },
     });
 
-    res.status(201).json({ id: user.id, message: "User created!" });
+    console.log(
+      res.status(201).json({ id: user.id, message: "User created!" })
+    );
+    console.log("svar från");
   } catch (error) {
     console.error("Error:", error);
 
